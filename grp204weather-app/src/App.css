@@ -30,3 +30,25 @@
   margin: 20px;
   font-size: 1.2em;
 }
+.forecast {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.forecast-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.forecast-day {
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    padding: 10px;
+    width: 100px;
+    text-align: center;
+}
+
+.forecast-day img {
+    width: 50px;
+}
