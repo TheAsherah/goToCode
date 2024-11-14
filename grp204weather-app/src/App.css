@@ -1,0 +1,32 @@
+/* App.css */
+.App {
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
+
+.app-name {
+  font-size: 2em;
+  color: #333;
+  margin: 20px;
+}
+
+.search-bar {
+  margin: 20px;
+}
+
+.city-search {
+  padding: 10px;
+  font-size: 1em;
+  width: 250px;
+}
+
+.error-message {
+  color: red;
+  font-size: 1em;
+  margin-top: 10px;
+}
+
+.weather-info {
+  margin: 20px;
+  font-size: 1.2em;
+}
