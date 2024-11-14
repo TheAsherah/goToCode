@@ -1,8 +1,4 @@
 import { Oval } from 'react-loader-spinner';
- import axios from 'axios';
- import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
- import { faFrown } from '@fortawesome/free-solid-svg-icons';
- import './App.css';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -16,15 +12,22 @@ function Grp204WeatherApp() {
         data: {},
         error: false,
     });
-    const [forecast, setForecast] = useState([]); // New state for storing forecast data
+    const [forecast, setForecast] = useState([]);
+    const [favorites, setFavorites] = useState([]);
+
+    // Charger les villes favorites de localStorage au chargement
+    useEffect(() => {
+        const savedFavorites = JSON.parse(localStorage.getItem('favorites')) || [];
+        setFavorites(savedFavorites);
+    }, []);
 
     const toDateFunction = () => {
-        const months = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
-        const WeekDays = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
-        const currentDate = new Date();
-        const date = `${WeekDays[currentDate.getDay()]} ${currentDate.getDate()} ${months[currentDate.getMonth()]}`;
-        return date;
-    };
+      const months = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
+      const weekDays = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
+      const currentDate = new Date();
+      const date = ${weekDays[currentDate.getDay()]} ${currentDate.getDate()} ${months[currentDate.getMonth()]};
+      return date;
+  };
 
     const search = async (event) => {
         if (event.key === 'Enter') {
@@ -62,7 +65,6 @@ function Grp204WeatherApp() {
                     },
                 })
                 .then((res) => {
-                    // Filter to get one forecast per day (every 24 hours)
                     const dailyForecast = res.data.list.filter((item, index) => index % 8 === 0);
                     setForecast(dailyForecast);
                 })
@@ -70,6 +72,20 @@ function Grp204WeatherApp() {
                     console.error("Erreur lors de la récupération des prévisions météo :", error);
                 });
         }
+    };
+
+    const addFavorite = () => {
+        if (input && !favorites.includes(input)) {
+            const newFavorites = [...favorites, input];
+            setFavorites(newFavorites);
+            localStorage.setItem('favorites', JSON.stringify(newFavorites));
+        }
+    };
+
+    const loadFavorite = (city) => {
+        setInput(city);
+        const enterEvent = new KeyboardEvent('keypress', { key: 'Enter' });
+        search(enterEvent);
     };
 
     return (
@@ -85,7 +101,18 @@ function Grp204WeatherApp() {
                     onChange={(event) => setInput(event.target.value)}
                     onKeyPress={search}
                 />
+                <button onClick={addFavorite}>Ajouter aux favoris</button>
             </div>
+
+            <div className="favorites">
+                <h2>Villes favorites</h2>
+                {favorites.map((city, index) => (
+                    <button key={index} onClick={() => loadFavorite(city)}>
+                        {city}
+                    </button>
+                ))}
+            </div>
+
             {weather.loading && (
                 <>
                     <Oval type="Oval" color="black" height={100} width={100} />
@@ -103,14 +130,13 @@ function Grp204WeatherApp() {
                 <div>
                     <h2>{weather.data.name}, {weather.data.sys.country}</h2>
                     <span>{toDateFunction()}</span>
-                    <img src={`https://openweathermap.org/img/wn/${weather.data.weather[0].icon}@2x.png`}
+                    <img src={https://openweathermap.org/img/wn/${weather.data.weather[0].icon}@2x.png}
                         alt={weather.data.weather[0].description} />
                     <p>{Math.round(weather.data.main.temp)}°C</p>
                     <p>Vitesse du vent : {weather.data.wind.speed} m/s</p>
                 </div>
             )}
 
-            {/* Display 5-day forecast */}
             {forecast.length > 0 && (
                 <div className="forecast">
                     <h2>Prévisions météo pour les 5 prochains jours</h2>
@@ -121,7 +147,6 @@ function Grp204WeatherApp() {
                                 <img src={`https://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`} alt="Icone météo" />
                                 <p>{Math.round(day.main.temp)}°C</p>
                                 <p>{day.weather[0].description}</p>
-                                <p>hello nada</p>
                             </div>
                         ))}
                     </div>

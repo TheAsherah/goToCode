@@ -1,54 +1,137 @@
 /* App.css */
+
+body {
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+  background: linear-gradient(135deg, #a1c4fd, #c2e9fb);
+  color: #333;
+}
+
 .App {
   text-align: center;
-  font-family: Arial, sans-serif;
+  padding: 20px;
 }
 
 .app-name {
-  font-size: 2em;
+  font-size: 2.5em;
   color: #333;
-  margin: 20px;
+  margin: 20px 0;
+  font-weight: bold;
+  letter-spacing: 1px;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .search-bar {
-  margin: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin: 20px 0;
 }
 
 .city-search {
   padding: 10px;
   font-size: 1em;
   width: 250px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.city-search::placeholder {
+  color: #aaa;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 1em;
+  background-color: #ff6f61;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+button:hover {
+  background-color: #ff4c4c;
 }
 
 .error-message {
-  color: red;
+  color: #e74c3c;
   font-size: 1em;
   margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: bold;
 }
 
 .weather-info {
   margin: 20px;
   font-size: 1.2em;
 }
+
 .forecast {
-    text-align: center;
-    margin-top: 20px;
+  text-align: center;
+  margin-top: 30px;
+  color: #444;
 }
 
 .forecast-container {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 15px;
 }
 
 .forecast-day {
-    background-color: #f0f0f0;
-    border-radius: 8px;
-    padding: 10px;
-    width: 100px;
-    text-align: center;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 12px;
+  padding: 15px;
+  width: 100px;
+  text-align: center;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .forecast-day img {
-    width: 50px;
+  width: 50px;
+}
+
+.forecast-day p {
+  margin: 5px 0;
+}
+
+.favorites {
+  margin-top: 20px;
+}
+
+.favorites h2 {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+  color: #333;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.favorites button {
+  margin: 5px;
+  padding: 5px 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 0.9em;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+.favorites button:hover {
+  background-color: #0056b3;
+}
+
+.oval-loader {
+  margin-top: 20px;
 }
