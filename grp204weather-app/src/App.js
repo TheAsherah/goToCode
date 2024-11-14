@@ -25,7 +25,7 @@ function Grp204WeatherApp() {
       const months = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
       const weekDays = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
       const currentDate = new Date();
-      const date = ${weekDays[currentDate.getDay()]} ${currentDate.getDate()} ${months[currentDate.getMonth()]};
+      const date = `${weekDays[currentDate.getDay()]}`` ${currentDate.getDate()}` `${months[currentDate.getMonth()]}`;
       return date;
   };
 
@@ -130,7 +130,7 @@ function Grp204WeatherApp() {
                 <div>
                     <h2>{weather.data.name}, {weather.data.sys.country}</h2>
                     <span>{toDateFunction()}</span>
-                    <img src={https://openweathermap.org/img/wn/${weather.data.weather[0].icon}@2x.png}
+                    <img src={`https://openweathermap.org/img/wn/${weather.data.weather[0].icon}@2x.png`}
                         alt={weather.data.weather[0].description} />
                     <p>{Math.round(weather.data.main.temp)}°C</p>
                     <p>Vitesse du vent : {weather.data.wind.speed} m/s</p>
