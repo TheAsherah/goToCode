@@ -14,7 +14,7 @@ import { Oval } from 'react-loader-spinner';
     const toDateFunction = () => {
         const months = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 
 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
-        const WeekDays = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
+        const WeekDays = ['dimanche', 'Lundi', 'Mardi', 'Mercredi', 'jeudi', 'Vendredi', 'Samedi'];
         const currentDate = new Date();
         const date = `${WeekDays[currentDate.getDay()]} ${currentDate.getDate()} ${months[currentDate.getMonth()]}`;
         return date;
