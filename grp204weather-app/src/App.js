@@ -4,7 +4,7 @@ import { Oval } from 'react-loader-spinner';
  import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
  import { faFrown } from '@fortawesome/free-solid-svg-icons';
  import './App.css';
- function Grp206WeatherApp() {
+ function Grp204WeatherApp() {
     const [input, setInput] = useState('');
     const [weather, setWeather] = useState({
         loading: false,
@@ -45,7 +45,7 @@ import { Oval } from 'react-loader-spinner';
     };
     return (
         <div className="App">
-            <h1 className="app-name">Application Météo GRP 206</h1>
+            <h1 className="app-name">Application Météo grp206</h1>
             <div className="search-bar">
                 <input
                     type="text"
@@ -82,4 +82,4 @@ import { Oval } from 'react-loader-spinner';
         </div>
     );
  }
- export default Grp206WeatherApp;
+ export default Grp204WeatherApp;
