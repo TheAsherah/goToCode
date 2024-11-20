@@ -14,6 +14,7 @@ function Grp204WeatherApp() {
     });
     const [forecast, setForecast] = useState([]);
     const [favorites, setFavorites] = useState([]);
+    const [theme, setTheme] = useState('day'); // Ajout d'un état pour le thème (jour ou nuit)
 
     // Charger les villes favorites de localStorage au chargement
     useEffect(() => {
@@ -21,14 +22,23 @@ function Grp204WeatherApp() {
         setFavorites(savedFavorites);
     }, []);
 
+    // Fonction pour afficher la date actuelle
     const toDateFunction = () => {
-      const months = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
-      const weekDays = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
-      const currentDate = new Date();
-      const date = `${weekDays[currentDate.getDay()]}`` ${currentDate.getDate()}` `${months[currentDate.getMonth()]}`;
-      return date;
-  };
+        const months = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
+        const weekDays = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
+        const currentDate = new Date();
+        const date = `${weekDays[currentDate.getDay()]} ${currentDate.getDate()} ${months[currentDate.getMonth()]}`;
+        return date;
+    };
 
+    // Fonction pour mettre à jour le thème (jour ou nuit) en fonction de l'heure locale
+    const updateTheme = (timezone) => {
+        const localTime = new Date(Date.now() + timezone * 1000); // Calcul de l'heure locale avec le décalage horaire
+        const hour = localTime.getUTCHours();
+        setTheme(hour >= 6 && hour < 18 ? 'day' : 'night'); // Jour entre 6h et 18h
+    };
+
+    // Fonction pour effectuer une recherche météo
     const search = async (event) => {
         if (event.key === 'Enter') {
             event.preventDefault();
@@ -36,7 +46,7 @@ function Grp204WeatherApp() {
             setWeather({ ...weather, loading: true });
             const api_key = 'f00c38e0279b7bc85480c3fe775d518c';
 
-            // Fetch current weather
+            // Récupérer les données météo actuelles
             const weatherUrl = 'https://api.openweathermap.org/data/2.5/weather';
             await axios
                 .get(weatherUrl, {
@@ -48,13 +58,14 @@ function Grp204WeatherApp() {
                 })
                 .then((res) => {
                     setWeather({ data: res.data, loading: false, error: false });
+                    updateTheme(res.data.timezone); // Mettre à jour le thème en fonction du fuseau horaire
                 })
                 .catch((error) => {
                     setWeather({ ...weather, data: {}, error: true });
                     setInput('');
                 });
 
-            // Fetch 5-day forecast
+            // Récupérer les prévisions sur 5 jours
             const forecastUrl = 'https://api.openweathermap.org/data/2.5/forecast';
             await axios
                 .get(forecastUrl, {
@@ -74,6 +85,7 @@ function Grp204WeatherApp() {
         }
     };
 
+    // Ajouter une ville aux favoris
     const addFavorite = () => {
         if (input && !favorites.includes(input)) {
             const newFavorites = [...favorites, input];
@@ -82,6 +94,7 @@ function Grp204WeatherApp() {
         }
     };
 
+    // Charger une ville favorite
     const loadFavorite = (city) => {
         setInput(city);
         const enterEvent = new KeyboardEvent('keypress', { key: 'Enter' });
@@ -89,7 +102,7 @@ function Grp204WeatherApp() {
     };
 
     return (
-        <div className="App">
+        <div className={`App ${theme}`}>
             <h1 className="app-name">Application Météo grp206</h1>
             <div className="search-bar">
                 <input
