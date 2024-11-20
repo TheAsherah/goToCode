@@ -135,3 +135,57 @@ button:hover {
 .oval-loader {
   margin-top: 20px;
 }
+.App.light {
+  background-color: #fff;
+  color: #000;
+}
+
+.App.dark {
+  background-color: #333;
+  color: #fff;
+}
+
+.App button {
+  background-color: #0066cc;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.App button:hover {
+  background-color: #005bb5;
+}
+/* Light Mode Styles */
+.App.light {
+  background-color: #fff;
+  color: #000;
+}
+
+.App.light h1, .App.light h2, .App.light p, .App.light span {
+  color: #000; /* Text color in light mode */
+}
+
+/* Dark Mode Styles */
+.App.dark {
+  background-color: #333;
+  color: #fff;
+}
+
+.App.dark h1, .App.dark h2, .App.dark p, .App.dark span {
+  color: #fff; /* Text color in dark mode */
+}
+
+/* Button Styles */
+.App button {
+  background-color: #0066cc;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.App button:hover {
+  background-color: #005bb5;
+}
+

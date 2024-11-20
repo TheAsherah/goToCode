@@ -19,15 +19,18 @@ function Grp204WeatherApp() {
     useEffect(() => {
         const savedFavorites = JSON.parse(localStorage.getItem('favorites')) || [];
         setFavorites(savedFavorites);
+
+        // Automatically detect location and fetch weather
+        detectLocation();
     }, []);
 
     const toDateFunction = () => {
-      const months = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
-      const weekDays = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
-      const currentDate = new Date();
-      const date = `${weekDays[currentDate.getDay()]}`` ${currentDate.getDate()}` `${months[currentDate.getMonth()]}`;
-      return date;
-  };
+        const months = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
+        const weekDays = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
+        const currentDate = new Date();
+        const date = `${weekDays[currentDate.getDay()]} ${currentDate.getDate()} ${months[currentDate.getMonth()]}`;
+        return date;
+    };
 
     const search = async (event) => {
         if (event.key === 'Enter') {
@@ -86,6 +89,68 @@ function Grp204WeatherApp() {
         setInput(city);
         const enterEvent = new KeyboardEvent('keypress', { key: 'Enter' });
         search(enterEvent);
+    };
+
+    // Function to detect the user's location
+    const detectLocation = () => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const { latitude, longitude } = position.coords;
+                    fetchWeatherByCoords(latitude, longitude); // Fetch weather using coordinates
+                },
+                (error) => {
+                    console.error("Erreur de géolocalisation:", error);
+                    alert("La géolocalisation n'est pas disponible.");
+                }
+            );
+        } else {
+            alert("La géolocalisation n'est pas supportée par ce navigateur.");
+        }
+    };
+
+    // Function to fetch weather using coordinates (latitude, longitude)
+    const fetchWeatherByCoords = async (latitude, longitude) => {
+        setWeather({ ...weather, loading: true });
+        const api_key = 'f00c38e0279b7bc85480c3fe775d518c';
+
+        // Fetch current weather using coordinates
+        const weatherUrl = 'https://api.openweathermap.org/data/2.5/weather';
+        await axios
+            .get(weatherUrl, {
+                params: {
+                    lat: latitude,
+                    lon: longitude,
+                    units: 'metric',
+                    appid: api_key,
+                },
+            })
+            .then((res) => {
+                setWeather({ data: res.data, loading: false, error: false });
+            })
+            .catch((error) => {
+                setWeather({ ...weather, data: {}, error: true });
+                setInput('');
+            });
+
+        // Fetch 5-day forecast using coordinates
+        const forecastUrl = 'https://api.openweathermap.org/data/2.5/forecast';
+        await axios
+            .get(forecastUrl, {
+                params: {
+                    lat: latitude,
+                    lon: longitude,
+                    units: 'metric',
+                    appid: api_key,
+                },
+            })
+            .then((res) => {
+                const dailyForecast = res.data.list.filter((item, index) => index % 8 === 0);
+                setForecast(dailyForecast);
+            })
+            .catch((error) => {
+                console.error("Erreur lors de la récupération des prévisions météo :", error);
+            });
     };
 
     return (
@@ -157,3 +222,4 @@ function Grp204WeatherApp() {
 }
 
 export default Grp204WeatherApp;
+ 
