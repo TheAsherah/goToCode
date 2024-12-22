@@ -1,0 +1,8 @@
+sonar.projectKey=hebakarim_goToCode
+sonar.organization=sonar-project-properties
+sonar.host.url=https://sonarcloud.io
+sonar.sources=src
+sonar.login=your-sonar-token
+
+
+8228729c918b3d3e0eb6782c2ffa52879d07a4a1
