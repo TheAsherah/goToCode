@@ -1,0 +1,23 @@
+image: node:16
+
+stages:
+  - test
+  - analysis
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - node_modules/
+
+before_script:
+  - npm install
+
+sonarcloud-analysis:
+  stage: analysis
+  script:
+    - npx sonar-scanner \
+        -Dsonar.projectKey=<hebakarim_goToCode> \
+        -Dsonar.organization=<sonar-project-properties> \
+        -Dsonar.sources=src \
+        -Dsonar.host.url=https://sonarcloud.io \
+        -Dsonar.login=9a95b343081797bdb00caf95e2246fd42a33556c
